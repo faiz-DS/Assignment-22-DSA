@@ -1,0 +1,48 @@
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+def print_root_to_leaf_paths(root):
+    if not root:
+        return
+    
+    stack = [(root, str(root.val))]  # Using a stack to perform iterative DFS
+    paths = []
+
+    while stack:
+        node, path = stack.pop()
+
+        if not node.left and not node.right:  # If the node is a leaf node, add the path to the list
+            paths.append(path)
+        
+        if node.right:  # Push the right child with updated path to the stack
+            stack.append((node.right, path + "->" + str(node.right.val)))
+        
+        if node.left:   # Push the left child with updated path to the stack
+            stack.append((node.left, path + "->" + str(node.left.val)))
+
+    for path in paths:
+        print(path)
+
+# Test the function with the given binary tree example
+# Construct the binary tree
+root = TreeNode(6)
+root.left = TreeNode(3)
+root.right = TreeNode(5)
+root.left.left = TreeNode(2)
+root.left.right = TreeNode(5)
+root.right.right = TreeNode(4)
+root.left.right.left = TreeNode(7)
+root.left.right.right = TreeNode(4)
+
+print("Output:")
+print_root_to_leaf_paths(root)
+
+"""OUTPUT
+6->5->4
+6->3->5->4
+6->3->5->7
+6->3->2
+"""
